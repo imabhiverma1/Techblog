@@ -1,0 +1,57 @@
+1. create database Techblog;
+-----------------------------------------------------
+2.use Techblog
+-----------------------------------------------------
+
+
+3.create table user
+(
+    id       int auto_increment
+        primary key,
+    name     varchar(500)                                         not null,
+    email    varchar(500)                                         not null,
+    password varchar(500)                                         not null,
+    gender   varchar(10)                                          not null,
+    about    varchar(1000) default '''Hey! I am Using TechBlog''' null,
+    rdate    timestamp     default CURRENT_TIMESTAMP              null,
+    profile  varchar(100)  default 'default.png'                  null,
+    constraint email
+        unique (email)
+);
+-----------------------------------------------------
+
+4.create table categories
+(
+    cid         int auto_increment
+        primary key,
+    name        varchar(100) not null,
+    description varchar(200) null
+);
+-----------------------------------------------------
+
+5.create table posts
+(
+    pid      int auto_increment
+        primary key,
+    pTitle   varchar(150)                        not null,
+    pContent longtext                            null,
+    pCode    longtext                            null,
+    pPic     varchar(100)                        null,
+    pdate    timestamp default CURRENT_TIMESTAMP null,
+    catId    int                                 null,
+    userId   int                                 not null,
+    constraint posts_ibfk_1
+        foreign key (catId) references categories (cid)
+            on update cascade on delete cascade,
+    constraint posts_ibfk_2
+        foreign key (userId) references user (id)
+            on update cascade on delete cascade
+);
+
+create index catId
+    on posts (catId);
+
+create index userId
+    on posts (userId);
+-----------------------------------------------------
+
